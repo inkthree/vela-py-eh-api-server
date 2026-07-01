@@ -449,7 +449,7 @@ def config():
         {
             "E-Hentai": {
                 "name": "E-Hentai",
-                "apiUrl": "https://eh-api.orpu.moe",
+                "apiUrl": "https://e-hentai.org",
                 "searchPath": "/search?q=<text>&next=<page>",
                 "photoPath": "/gallery/<gid>/<token>/images?page=<page>",
                 "detailPath": "/gallery/<gid>/<token>",
