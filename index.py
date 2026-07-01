@@ -355,9 +355,23 @@ def get_request_context() -> tuple:
 
 def fetch_page_for_request(url: str, headers: dict) -> Optional[str]:
     try:
-        response = requests.get(url, headers=headers, timeout=REQUEST_TIMEOUT)
+        headers = headers.copy()
+
+        headers.update({
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36",
+            "Referer": "https://e-hentai.org/",
+            "Accept-Language": "en-US,en;q=0.9"
+        })
+
+        response = requests.get(
+            url,
+            headers=headers,
+            timeout=30
+        )
+
         response.raise_for_status()
         return response.text
+
     except requests.RequestException as e:
         logging.error(f"请求 E-Hentai 失败: {e}, URL: {url}")
         return None
