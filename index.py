@@ -207,13 +207,16 @@ class EhUrlBuilder:
     def __init__(self, use_exhentai: bool = False): self.domain = self.SITE_EX if use_exhentai else self.SITE_E; self.base_url = f'https://{self.domain}'
     def build_home_url(self, next_id: Optional[str] = None ) -> str: return f'{self.base_url}/' if not next_id else f'{self.base_url}/?next={next_id}'
     def build_search_url(self, keyword: Optional[str] = None, next_id: Optional[str] = None, **kwargs) -> str:
-        params = {}
-        if not next_id:
-            if keyword: params['f_search'] = keyword.strip()
-        else:
-            params = {'f_search': keyword.strip(), 'next': next_id} if keyword else {'next': next_id}
-        query_string = urlencode(params)
-        return f'{self.base_url}/?{query_string}'
+    params = {}
+
+    if keyword:
+        params['f_search'] = keyword.strip()
+
+    if next_id:
+        params['next'] = next_id
+
+    query_string = urlencode(params)
+    return f'{self.base_url}/?{query_string}'
     def build_tag_url(self, tag: str, page: int = 0) -> str: encoded_tag = quote(tag); return f'{self.base_url}/tag/{encoded_tag}' if page == 0 else f'{self.base_url}/tag/{encoded_tag}/{page}'
     def build_gallery_url(self, gid: int, token: str) -> str: return f'{self.base_url}/g/{gid}/{token}/'
     def build_popular_url(self) -> str: return f'{self.base_url}/popular'
