@@ -376,7 +376,10 @@ def home():
         if not result: return jsonify({'error': '无法获取页面内容'}), 500
         for gallery in result.get('galleries', []):
             if 'thumbnail' in gallery and gallery['thumbnail']: gallery['thumbnail_proxy'] = f"/image/proxy?url={gallery['thumbnail']}&w={THUMBNAIL_PROXY_WIDTH}&q={THUMBNAIL_PROXY_QUALITY}"
-        return jsonify({'success': True, **result})
+        return jsonify({
+    'success': True,
+    'items': result.get('galleries', [])
+})
     except Exception as e: logging.error(f"路由 / 出错: {e}"); return jsonify({'error': f'服务器错误: {str(e)}'}), 500
 
 @app.route('/search')
@@ -390,7 +393,10 @@ def search():
         if not result: return jsonify({'error': '无法获取搜索结果'}), 500
         for gallery in result.get('galleries', []):
             if 'thumbnail' in gallery and gallery['thumbnail']: gallery['thumbnail_proxy'] = f"/image/proxy?url={gallery['thumbnail']}&w={THUMBNAIL_PROXY_WIDTH}&q={THUMBNAIL_PROXY_QUALITY}"
-        return jsonify({'success': True, 'keyword': keyword, **result})
+        return jsonify({
+    'success': True,
+    'items': result.get('galleries', [])
+})
     except Exception as e: logging.error(f"路由 /search 出错: {e}"); return jsonify({'error': f'服务器错误: {str(e)}'}), 500
 
 @app.route('/gallery/<int:gid>/<token>')
